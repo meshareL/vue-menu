@@ -1,0 +1,222 @@
+{
+  "$schema": "http://json.schemastore.org/web-types",
+  "framework": "vue",
+  "name": "@tomoeed/vue-menu",
+  "version": "1.0.0",
+  "js-types-syntax": "typescript",
+  "description-markup": "markdown",
+  "framework-config": {
+    "enable-when": {
+      "node-packages": [
+        "vue",
+        "@vue/cli"
+      ],
+      "file-extensions": [
+        "vue"
+      ],
+      "ide-libraries": [
+        "vue"
+      ]
+    }
+  },
+  "contributions": {
+    "html": {
+      "vue-components": [
+        {
+          "name": "Menubar",
+          "props": [
+            {
+              "name": "orientation",
+              "type": [
+                "\"horizontal\"",
+                "\"vertical\""
+              ],
+              "default": "\"vertical\""
+            }
+          ],
+          "js": {
+            "events": [
+              {
+                "name": "command",
+                "type": "(command?: Command) => void"
+              }
+            ]
+          },
+          "slots": [
+            {
+              "name": "default"
+            }
+          ]
+        },
+        {
+          "name": "Menu",
+          "props": [
+            {
+              "name": "orientation",
+              "type": [
+                "\"horizontal\"",
+                "\"vertical\""
+              ],
+              "default": "\"vertical\""
+            }
+          ],
+          "js": {
+            "events": [
+              {
+                "name": "command",
+                "type": "(command?: Command) => void"
+              }
+            ]
+          },
+          "slots": [
+            {
+              "name": "default"
+            }
+          ]
+        },
+        {
+          "name": "Context",
+          "props": [
+            {
+              "name": "defaultOpen",
+              "type": "boolean",
+              "default": "false"
+            },
+            {
+              "name": "placement",
+              "description": "菜单放置位置, 如果是子菜单则值为 `right-start`, 否则为 `bottom-start`",
+              "type": "Placement",
+              "default": "bottom-start | right-start"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "vue-properties": [
+                {
+                  "name": "props",
+                  "type": "{ status: Readonly<Ref<boolean>>, toggle: (value?: boolean, relatedEvent?: Event) => void, menuRef: (element: ComponentPublicInstance | Element | null) => void, triggerRef: (element: ComponentPublicInstance | Element | null) => void, triggerProps: object }"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Menuitem",
+          "props": [
+            {
+              "name": "modelValue",
+              "default": "类型为 radio 或 checkbox 时, 支持 `v-model`  radio 只支持 `string` 类型  checkbox 支持 `boolean`, `Array`, `Set` 类型",
+              "type": "string | boolean | Array<string> | Set<string>",
+              "required": false
+            },
+            {
+              "name": "type",
+              "type": [
+                "\"command\"",
+                "\"radio\"",
+                "\"checkbox\""
+              ],
+              "default": "\"command\""
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "default": "false"
+            },
+            {
+              "name": "command",
+              "type": [
+                "number",
+                "string",
+                "object"
+              ],
+              "required": false
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "value",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "defaultChecked",
+              "type": "boolean",
+              "default": "false"
+            }
+          ],
+          "vue-model": {
+            "prop": "modelValue",
+            "event": "update:modelValue"
+          },
+          "js": {
+            "events": [
+              {
+                "name": "command",
+                "type": "(command?: Command)  => void"
+              },
+              {
+                "name": "update:modelValue",
+                "type": "(value: string | boolean | Array<string> | Set<string>) => void"
+              }
+            ]
+          },
+          "slots": [
+            {
+              "name": "as",
+              "vue-properties": [
+                {
+                  "name": "props",
+                  "type": "object"
+                }
+              ]
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "leading"
+            },
+            {
+              "name": "trailing"
+            },
+            {
+              "name": "description"
+            }
+          ]
+        },
+        {
+          "name": "Anchor",
+          "slots": [
+            {
+              "name": "default"
+            },
+            {
+              "name": "leading"
+            },
+            {
+              "name": "description"
+            }
+          ]
+        },
+        {
+          "name": "Divider",
+          "props": [
+            {
+              "name": "orientation",
+              "type": [
+                "\"horizontal\"",
+                "\"vertical\""
+              ],
+              "required": false
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

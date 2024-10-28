@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VueMenu</title>
+  <link rel="stylesheet" href="../dist/index.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+      font-size: 14px;
+      line-height: 1.5;
+      color: #24292f;
+      background-color: #ffffff;
+      margin: 0;
+    }
+
+    kbd { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        color: #f9f9f9;
+        background-color: #16161a;
+      }
+    }
+
+    #root {
+      width: 980px;
+      height: 100vh;
+      margin-block: 0;
+      margin-inline: auto;
+    }
+
+    .d-inline-block { display: inline-block; }
+    .d-flex { display: flex; }
+    .mt-16 { margin-block-start: 16px; }
+    .ml-16 { margin-inline-start: 16px; }
+    .mt-100 { margin-block-start: 100px; }
+    .mb-100 { margin-block-end: 100px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.5.12/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-demi@0.14.10/lib/index.iife.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-router@4.4.5/dist/vue-router.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.8/dist/floating-ui.core.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@floating-ui/utils@0.2.8/dist/floating-ui.utils.dom.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.11/dist/floating-ui.dom.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@floating-ui/vue@1.1.5/dist/floating-ui.vue.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/focus-visible@5.2.1/dist/focus-visible.min.js"></script>
+  <script src="../dist/index.umd.min.js"></script>
+
+  <script>
+    const { createApp, ref, defineComponent, h: createElement } = Vue,
+          { createRouter, createWebHistory, RouterLink } = VueRouter,
+          { Context, Menubar, Menu, Menuitem, Divider, Anchor } = window.VueMenu;
+
+    const Database = defineComponent({
+      name: 'Database',
+      template: `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+          <path d="M1 3.5c0-.626.292-1.165.7-1.59.406-.422.956-.767 1.579-1.041C4.525.32 6.195 0 8 0c1.805 0 3.475.32 4.722.869.622.274 1.172.62 1.578 1.04.408.426.7.965.7 1.591v9c0 .626-.292 1.165-.7 1.59-.406.422-.956.767-1.579 1.041C11.476 15.68 9.806 16 8 16c-1.805 0-3.475-.32-4.721-.869-.623-.274-1.173-.62-1.579-1.04-.408-.426-.7-.965-.7-1.591Zm1.5 0c0 .133.058.318.282.551.227.237.591.483 1.101.707C4.898 5.205 6.353 5.5 8 5.5c1.646 0 3.101-.295 4.118-.742.508-.224.873-.471 1.1-.708.224-.232.282-.417.282-.55 0-.133-.058-.318-.282-.551-.227-.237-.591-.483-1.101-.707C11.102 1.795 9.647 1.5 8 1.5c-1.646 0-3.101.295-4.118.742-.508.224-.873.471-1.1.708-.224.232-.282.417-.282.55Zm0 4.5c0 .133.058.318.282.551.227.237.591.483 1.101.707C4.898 9.705 6.353 10 8 10c1.646 0 3.101-.295 4.118-.742.508-.224.873-.471 1.1-.708.224-.232.282-.417.282-.55V5.724c-.241.15-.503.286-.778.407C11.475 6.68 9.805 7 8 7c-1.805 0-3.475-.32-4.721-.869a6.15 6.15 0 0 1-.779-.407Zm0 2.225V12.5c0 .133.058.318.282.55.227.237.592.484 1.1.708 1.016.447 2.471.742 4.118.742 1.647 0 3.102-.295 4.117-.742.51-.224.874-.47 1.101-.707.224-.233.282-.418.282-.551v-2.275c-.241.15-.503.285-.778.406-1.247.549-2.917.869-4.722.869-1.805 0-3.475-.32-4.721-.869a6.327 6.327 0 0 1-.779-.406Z"></path>
+        </svg>`
+    });
+
+    const Heading = defineComponent({
+      name: 'Database',
+      template: `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+          <path d="M3.75 2a.75.75 0 0 1 .75.75V7h7V2.75a.75.75 0 0 1 1.5 0v10.5a.75.75 0 0 1-1.5 0V8.5h-7v4.75a.75.75 0 0 1-1.5 0V2.75A.75.75 0 0 1 3.75 2Z"></path>
+        </svg>`
+    });
+
+    const Shortcut = defineComponent({
+      name: 'Shortcut',
+      template: `<kbd>Ctrl</kbd> + <kbd>C</kbd>`
+    });
+
+    const router = createRouter({
+      history: createWebHistory('/'),
+      routes: [
+        { name: 'home', path: '/', component: () => createElement('h1', 'Home') },
+        { name: 'about', path: '/about', component: () => createElement('h1', 'About') }
+      ]
+    });
+
+    createApp({
+      name: 'Root',
+      components: {
+        Context,
+        Menubar,
+        Menu,
+        Menuitem,
+        Divider,
+        Anchor,
+        Database,
+        Heading,
+        Shortcut,
+        RouterLink
+      },
+      setup() {
+        const orientation = ref('vertical');
+        const radioChecked = ref('football');
+        const checkboxChecked = ref([]);
+
+        return { orientation, radioChecked, checkboxChecked };
+      },
+      template: `
+        <Menubar class="d-flex mt-100">
+          <button type="button" role="menuitem">Menuitem</button>
+          <Context class="ml-16" #default="{ triggerRef, triggerProps, menuRef }">
+            <button class="btn" type="button" v-bind="triggerProps" :ref="triggerRef">Open menu 1</button>
+            <Menu :ref="menuRef">
+              <Menuitem type="command">Only label</Menuitem>
+              <Menuitem type="command">Only label</Menuitem>
+              <Menuitem type="command">Only label</Menuitem>
+              <Menuitem type="command">Only label</Menuitem>
+              <Menuitem type="command">Only label</Menuitem>
+            </Menu>
+          </Context>
+          <Context class="ml-16" #default="{ triggerRef, triggerProps, menuRef }">
+            <button class="btn" type="button" v-bind="triggerProps" :ref="triggerRef">Open menu 2</button>
+            <Menu :ref="menuRef">
+              <Menuitem v-model="radioChecked" type="radio" name="ball" value="football">Football</Menuitem>
+              <Menuitem v-model="radioChecked" type="radio" name="ball" value="basketball">Basketball</Menuitem>
+              <Menuitem v-model="radioChecked" type="radio" name="ball" value="baseball">Baseball</Menuitem>
+              <Menuitem v-model="radioChecked" type="radio" name="ball" value="pingPong">PingPong</Menuitem>
+              <Menuitem v-model="radioChecked" type="radio" name="ball" value="badminton">Badminton</Menuitem>
+            </Menu>
+          </Context>
+          <Context class="ml-16" #default="{ triggerRef, triggerProps, menuRef }">
+            <button class="btn" type="button" v-bind="triggerProps" :ref="triggerRef">Open menu 3</button>
+            <Menu :ref="menuRef">
+              <Menuitem>menuitem</Menuitem>
+              <Context #default="{ menuRef, triggerRef, triggerProps }">
+                <Anchor v-bind="triggerProps" :ref="triggerRef">
+                  <template #leading><Heading/></template>
+                  Heading
+                </Anchor>
+                <Menu :ref="menuRef">
+                  <template v-for="index in 6"><Menuitem>H{{ index }}</Menuitem></template>
+
+                  <Context #default="{ menuRef, triggerRef, triggerProps }">
+                    <Anchor v-bind="triggerProps" :ref="triggerRef">
+                      <template #leading><Heading/></template>
+                      Heading
+                    </Anchor>
+                    <Menu :ref="menuRef">
+                      <template v-for="index in 6"><Menuitem>H{{ index }}</Menuitem></template>
+                    </Menu>
+                  </Context>
+                </Menu>
+              </Context>
+              <Context #default="{ menuRef, triggerRef, triggerProps }">
+                <Anchor v-bind="triggerProps" :ref="triggerRef">
+                  <template #leading><Heading/></template>
+                  Heading
+                </Anchor>
+                <Menu :ref="menuRef">
+                  <template v-for="index in 6"><Menuitem>H{{ index }}</Menuitem></template>
+                </Menu>
+              </Context>
+            </Menu>
+          </Context>
+        </Menubar>
+
+        <div class="mt-100 mb-100">
+          <Context class="d-inline-block" #default="{ menuRef, triggerRef, triggerProps }">
+            <button class="btn" type="button" v-bind="triggerProps" :ref="triggerRef">Open command menu</button>
+            <Menu :ref="menuRef">
+              <Menuitem #as="asProps">
+                <RouterLink v-bind="asProps" :to="{ name: 'home' }">Home</RouterLink>
+              </Menuitem>
+              <Divider/>
+              <Menuitem type="command">Only label</Menuitem>
+              <Divider/>
+              <Menuitem type="command" v-if="false">vIf false</Menuitem>
+              <Menuitem type="command">
+                <template #leading><Database/></template>
+                Label + icon
+              </Menuitem>
+              <Menuitem type="command">
+                <template #trailing><Shortcut/></template>
+                Label + value
+              </Menuitem>
+              <Menuitem type="command">
+                <template #leading><Database/></template>
+                <template #trailing><Shortcut/></template>
+                Label + icon + value
+              </Menuitem>
+              <Menuitem type="command">
+                <template #description>This is the test text for the desc slot of the menuitem component</template>
+                Label + description
+              </Menuitem>
+              <Menuitem type="command">
+                <template #leading><Database/></template>
+                <template #description>This is the test text for the description slot of the menuitem component</template>
+                Label + icon + desc
+              </Menuitem>
+              <Menuitem type="command">
+                <template #trailing><Shortcut/></template>
+                <template #desc>This is the test text for the desc slot of the menuitem component</template>
+                Label + value + desc
+              </Menuitem>
+              <Menuitem type="command">
+                <template #leading><Database/></template>
+                <template #trailing><Shortcut/></template>
+                <template #desc>This is the test text for the desc slot of the menuitem component</template>
+                Label + icon + value + desc
+              </Menuitem>
+            </Menu>
+          </Context>
+
+          <Context class="d-inline-block ml-16" #default="{ menuRef, triggerRef, triggerProps }">
+            <button class="btn" type="button" v-bind="triggerProps" :ref="triggerRef">Open single select menu: {{ radioChecked }}</button>
+            <Menu :ref="menuRef" :orientation="orientation" style="min-width: 150px;">
+              <Menuitem v-model="radioChecked" type="radio" name="ball" value="football">Football</Menuitem>
+              <Menuitem v-model="radioChecked" type="radio" name="ball" value="basketball">Basketball</Menuitem>
+              <Menuitem v-model="radioChecked" type="radio" name="ball" value="baseball">Baseball</Menuitem>
+              <Menuitem v-model="radioChecked" type="radio" name="ball" value="pingPong">PingPong</Menuitem>
+              <Menuitem v-model="radioChecked" type="radio" name="ball" value="badminton">Badminton</Menuitem>
+            </Menu>
+          </Context>
+
+          <Context class="d-inline-block ml-16" #default="{ menuRef, triggerRef, triggerProps }">
+            <button class="btn" type="button" v-bind="triggerProps" :ref="triggerRef">Open multi select menu</button>
+            <Menu :ref="menuRef" :orientation="orientation" style="min-width: 150px;">
+              <Menuitem v-model="checkboxChecked" type="checkbox" name="fruit" value="apple">Apple</Menuitem>
+              <Menuitem v-model="checkboxChecked" type="checkbox" name="fruit" value="banana">Banana</Menuitem>
+              <Menuitem v-model="checkboxChecked" type="checkbox" name="fruit" value="orange">Orange</Menuitem>
+              <Menuitem v-model="checkboxChecked" type="checkbox" name="fruit" value="grape">Grape</Menuitem>
+              <Menuitem v-model="checkboxChecked" type="checkbox" name="fruit" value="watermelon">Watermelon</Menuitem>
+            </Menu>
+          </Context>
+
+          <Context class="d-inline-block ml-16" #default="{ menuRef, triggerRef, triggerProps }">
+            <button class="btn" type="button" v-bind="triggerProps" :ref="triggerRef">Open submenu</button>
+            <Menu :ref="menuRef" :orientation="orientation" style="min-width: 150px;">
+              <Menuitem>menuitem</Menuitem>
+              <Context #default="{ menuRef, triggerRef, triggerProps }">
+                <Anchor v-bind="triggerProps" :ref="triggerRef">
+                  <template #leading><Heading/></template>
+                  Heading
+                </Anchor>
+                <Menu :ref="menuRef">
+                  <template v-for="index in 6"><Menuitem>H{{ index }}</Menuitem></template>
+
+                  <Context #default="{ menuRef, triggerRef, triggerProps }">
+                    <Anchor v-bind="triggerProps" :ref="triggerRef">
+                      <template #leading><Heading/></template>
+                      Heading
+                    </Anchor>
+                    <Menu :ref="menuRef">
+                      <template v-for="index in 6"><Menuitem>H{{ index }}</Menuitem></template>
+                    </Menu>
+                  </Context>
+                </Menu>
+              </Context>
+              <Context #default="{ menuRef, triggerRef, triggerProps }">
+                <Anchor v-bind="triggerProps" :ref="triggerRef">
+                  <template #leading><Heading/></template>
+                  Heading
+                </Anchor>
+                <Menu :ref="menuRef">
+                  <template v-for="index in 6"><Menuitem>H{{ index }}</Menuitem></template>
+                </Menu>
+              </Context>
+            </Menu>
+          </Context>
+        </div>
+
+        <ul>
+          <li>{{ JSON.stringify(radioChecked) }}</li>
+          <li>{{ JSON.stringify(checkboxChecked) }}</li>
+        </ul>
+      `
+    })
+      .use(router)
+      .mount('#root');
+  </script>
+</body>
+</html>

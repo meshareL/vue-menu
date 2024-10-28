@@ -1,0 +1,15 @@
+@use '../support' as base;
+
+$base-color-fg: #1c1f23 !default;
+
+@media (prefers-contrast: more) {
+  :root,
+  html[data-contrast='more']:root {
+    color-scheme: light;
+    --km-border-color: #{$base-color-fg};
+    --km-fg-color-minor: rgb(from #{$base-color-fg} r g b / 80%);
+    --km-leading-color: rgb(from #{$base-color-fg} r g b / 80%);
+    --km-hover-bg-color: #c6cacd;
+    --km-focus-outline-color: #00439c;
+  }
+}

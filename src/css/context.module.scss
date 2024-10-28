@@ -1,0 +1,15 @@
+.menubar {
+  display: flex;
+
+  [aria-orientation='vertical'] {
+    flex-direction: column;
+  }
+}
+
+.submenu-context {
+  margin: 0 8px;
+
+  &:not(:first-child) {
+    margin-block-start: 2px;
+  }
+}

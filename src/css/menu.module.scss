@@ -1,0 +1,33 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+  color: var(--km-fg-color);
+  background-color: var(--km-bg-color);
+  border: var(--km-border-width) var(--km-border-style) var(--km-border-color);
+  border-radius: var(--km-border-radius);
+  box-shadow: 0 1px 8px var(--km-shadow-color);
+
+  [role='separator'] {
+    height: 1px;
+    margin: 8px 0 6px;
+    background-color: var(--km-border-color);
+    border: none;
+  }
+}
+
+/* :global(.vue-menu) {
+  &-enter-active { transition: opacity 0.25s ease-in; }
+  &-enter-from { opacity: 0; }
+  &-leave-active { transition: opacity 0.1s ease-in; }
+  &-leave-to { opacity: 0; }
+} */
+
+:global {
+  .vue-menu {
+    &-enter-active { transition: opacity 0.25s ease-in; }
+    &-enter-from { opacity: 0; }
+    &-leave-active { transition: opacity 0.1s ease-in; }
+    &-leave-to { opacity: 0; }
+  }
+}
