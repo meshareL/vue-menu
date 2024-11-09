@@ -2,17 +2,24 @@
 
 $base-color-fg: #f9f9f9 !default;
 
+@mixin scheme() {
+  color-scheme: dark;
+  --km-fg-color: #{$base-color-fg};
+  --km-fg-color-minor: rgb(from #{$base-color-fg} r g b / 60%);
+  --km-bg-color: #35363c;
+  --km-border-color: rgb(from #{base.$base-color-white} r g b / 8%);
+  --km-shadow-color: rgb(from #{base.$base-color-black} r g b / 4%);
+  --km-leading-color: rgb(from #{$base-color-fg} r g b / 60%);
+  --km-hover-bg-color: #44494f;
+  --km-focus-outline-color: #368ce9;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root,
-  html[data-theme='dark']:root {
-    color-scheme: dark;
-    --km-fg-color: #{$base-color-fg};
-    --km-fg-color-minor: rgb(from #{$base-color-fg} r g b / 60%);
-    --km-bg-color: #35363c;
-    --km-border-color: rgb(from #{base.$base-color-white} r g b / 8%);
-    --km-shadow-color: rgb(from #{base.$base-color-black} r g b / 4%);
-    --km-leading-color: rgb(from #{$base-color-fg} r g b / 60%);
-    --km-hover-bg-color: #44494f;
-    --km-focus-outline-color: #368ce9;
+  :root {
+    @include scheme;
   }
+}
+
+html[data-theme='dark']:root {
+  @include scheme;
 }
